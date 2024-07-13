@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.EntityModel;
 
 import com.gabriel2m.exchange.repository.TransactionRepository;
 import com.gabriel2m.exchange.model.Transaction;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
-import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,10 +25,14 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping(path = "/transactions")
 public class TransactionController {
   	private final TransactionRepository transactionRepository;
+    private final PagedResourcesAssembler pagedResourcesAssembler;
 
 	@GetMapping("/{userId}")
-	public List<Transaction> index(@PathVariable Integer userId) {
-		return transactionRepository.findAllByUserId(userId);
+	public PagedModel<EntityModel> index(@PathVariable Integer userId, Pageable pageable) {
+		return pagedResourcesAssembler.toModel(
+			transactionRepository.findAllByUserId(userId, pageable),
+			(entity) -> EntityModel.of(entity)	
+		);
 	}
 
 	@PostMapping
