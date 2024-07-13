@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.gabriel2m.exchange.repository.TransactionRepository;
 import com.gabriel2m.exchange.model.Transaction;
@@ -36,7 +38,7 @@ public class TransactionController {
 	}
 
 	@PostMapping
-	public Transaction store(
+	public ResponseEntity<Transaction> store(
 		@RequestBody Transaction transaction,
 		@Value("${exchange_rates_api.access_key}") String accessKey,
 		@Value("${exchange_rates_api.base_url}") String baseUrl,
@@ -54,6 +56,9 @@ public class TransactionController {
 
 		transaction.setRate(to/from);
 		
-		return transactionRepository.save(transaction);
+		return new ResponseEntity<Transaction>(
+			transactionRepository.save(transaction),
+			HttpStatus.CREATED
+		);
 	}
 }
