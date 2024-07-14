@@ -26,12 +26,12 @@ The code is divided in the model, control and service layers.
 Our API counts with the following endpoints:
 
 - \[POST\] **/transactions** - Create a transaction:
-```json
+```js
 // Request example:
 {
   "userId": 1,
   "from": "USD",
-  "amount": 2.345,
+  "amount": 5,
   "to": "BRL"
 }
 
@@ -47,10 +47,20 @@ Our API counts with the following endpoints:
   "createdAt": "2024-07-14T23:04:46.646365Z",
   "result": 27.121274463791888
 }
+
+// HTTP 422
+{
+  "errors": [
+    {
+      "field": "amount",
+      "message": "must be greater than 0"
+    }
+  ]
+}
 ```
 
-- \[​GET\] **/transactions/{userId}** - User transactions paginated list:
-```json
+- \[​GET\] **/transactions/{userId}** - Transactions by userId paginated list:
+```js
 // Response example:
 // HTTP 200
 {
