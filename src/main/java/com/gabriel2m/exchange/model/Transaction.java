@@ -16,32 +16,34 @@ import java.time.OffsetDateTime;
 @Entity
 @Data
 public class Transaction {
-  @Id
-  @GeneratedValue
-  @Setter(AccessLevel.NONE)
-  private Integer id;
 
-  @Column(nullable = false)
-  private Integer userId;
+	@Id
+	@GeneratedValue
+	@Setter(AccessLevel.NONE)
+	private Integer id;
 
-  @Column(nullable = false)
-  private String from;
+	@Column(nullable = false)
+	private Integer userId;
 
-  @Column(nullable = false)
-  private double amount;
+	@Column(nullable = false)
+	private String from;
 
-  @Column(nullable = false)
-  private String to;
-  
-  @Column(nullable = false)
-  private double rate;
+	@Column(nullable = false)
+	private double amount;
 
-  @CreationTimestamp
-  @Column(updatable = false)
-  @Setter(AccessLevel.NONE)
-  private OffsetDateTime createdAt;
+	@Column(nullable = false)
+	private String to;
 
-  public double getResult() {
-    return amount*rate;
-  }
+	@Column(nullable = false)
+	private double rate;
+
+	@CreationTimestamp
+	@Column(updatable = false)
+	@Setter(AccessLevel.NONE)
+	private OffsetDateTime createdAt;
+
+	public double getResult() {
+		return amount * rate;
+	}
+
 }

@@ -26,23 +26,22 @@ import jakarta.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping(path = "/transactions")
 public class TransactionController {
-  	private final TransactionRepository transactionRepository;
-    private final PagedResourcesAssembler pagedResourcesAssembler;
+
+	private final TransactionRepository transactionRepository;
+
+	private final PagedResourcesAssembler pagedResourcesAssembler;
+
 	private final TransactionService transactionService;
 
 	@GetMapping("/{userId}")
 	public PagedModel<EntityModel> index(@PathVariable Integer userId, Pageable pageable) {
-		return pagedResourcesAssembler.toModel(
-			transactionRepository.findAllByUserId(userId, pageable),
-			(entity) -> EntityModel.of(entity)	
-		);
+		return pagedResourcesAssembler.toModel(transactionRepository.findAllByUserId(userId, pageable),
+				(entity) -> EntityModel.of(entity));
 	}
 
 	@PostMapping
 	public ResponseEntity<Transaction> store(@Valid @RequestBody StoreTransactionDto storeTransactionDto) {
-        return new ResponseEntity<Transaction>(
-			transactionService.create(storeTransactionDto),
-			HttpStatus.CREATED
-		);
+		return new ResponseEntity<Transaction>(transactionService.create(storeTransactionDto), HttpStatus.CREATED);
 	}
+
 }

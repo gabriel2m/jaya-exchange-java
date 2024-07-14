@@ -9,21 +9,23 @@ import lombok.Data;
 
 @Data
 public class StoreTransactionDto {
-  @NotNull
-  @Positive
-  @Max(Integer.MAX_VALUE)
-  private Integer userId;
 
-  @NotNull
-  @Pattern(regexp = "^[A-Z]{3}$")
-  private String from;
+	@NotNull
+	@Positive
+	@Max(Integer.MAX_VALUE)
+	private Integer userId;
 
-  @NotNull
-  @Positive
-  @Max(Integer.MAX_VALUE)
-  private double amount;
+	@NotNull
+	@Pattern(regexp = "^[A-Z]{3}$")
+	private String from;
 
-  @NotNull
-  @Pattern(regexp = "^[A-Z]{3}$")
-  private String to;
+	@NotNull
+	@Positive
+	@Max(Integer.MAX_VALUE)
+	private double amount;
+
+	@NotNull
+	@Pattern(regexp = "^[A-Z]{3}$")
+	private String to;
+
 }

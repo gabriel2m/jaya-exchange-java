@@ -15,28 +15,28 @@ import java.util.Optional;
 
 @Service
 public class ExchangeRatesApiService implements ExchangeService {
-  @Value("${exchange_rates_api.access_key}")
-  private String accessKey;
-  
-  @Value("${exchange_rates_api.base_url}") 
-  private String baseUrl;
-  
-  @Value("${exchange_rates_api.base_currency}") 
-  private String baseCurrency;
 
-  @Override
-  public double rate(String from, String to) {
-    JsonNode rates = latestRates();
+	@Value("${exchange_rates_api.access_key}")
+	private String accessKey;
 
-    return rates.get(to).asDouble() / rates.get(from).asDouble();
-  }
+	@Value("${exchange_rates_api.base_url}")
+	private String baseUrl;
 
-  private JsonNode latestRates() {
-    RestTemplate restTemplate = new RestTemplate();
+	@Value("${exchange_rates_api.base_currency}")
+	private String baseCurrency;
 
-		return restTemplate.getForObject(
-			baseUrl+"?base="+baseCurrency+"&access_key="+accessKey,
-			JsonNode.class
-		).get("rates");
-  }
+	@Override
+	public double rate(String from, String to) {
+		JsonNode rates = latestRates();
+
+		return rates.get(to).asDouble() / rates.get(from).asDouble();
+	}
+
+	private JsonNode latestRates() {
+		RestTemplate restTemplate = new RestTemplate();
+
+		return restTemplate.getForObject(baseUrl + "?base=" + baseCurrency + "&access_key=" + accessKey, JsonNode.class)
+			.get("rates");
+	}
+
 }

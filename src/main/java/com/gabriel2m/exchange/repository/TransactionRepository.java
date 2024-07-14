@@ -6,5 +6,7 @@ import org.springframework.data.domain.Pageable;
 import com.gabriel2m.exchange.model.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
-    Page<Transaction> findAllByUserId(Integer userId, Pageable pageable);
+
+	Page<Transaction> findAllByUserId(Integer userId, Pageable pageable);
+
 }
