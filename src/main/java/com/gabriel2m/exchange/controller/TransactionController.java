@@ -13,11 +13,16 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.modelmapper.ModelMapper;
+
 import com.gabriel2m.exchange.repository.TransactionRepository;
 import com.gabriel2m.exchange.model.Transaction;
+import com.gabriel2m.exchange.model.dto.StoreTransactionDto;
 import com.gabriel2m.exchange.service.contract.ExchangeService;
 
 import lombok.RequiredArgsConstructor;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +31,7 @@ public class TransactionController {
   	private final TransactionRepository transactionRepository;
     private final PagedResourcesAssembler pagedResourcesAssembler;
   	private final ExchangeService exchangeService;
+	private final ModelMapper modelMapper;
 
 	@GetMapping("/{userId}")
 	public PagedModel<EntityModel> index(@PathVariable Integer userId, Pageable pageable) {
@@ -36,7 +42,9 @@ public class TransactionController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Transaction> store(@RequestBody Transaction transaction) {
+	public ResponseEntity<Transaction> store(@Valid @RequestBody StoreTransactionDto storeTransactionDto) {
+		Transaction transaction = modelMapper.map(storeTransactionDto, Transaction.class);
+
         transaction.setRate(exchangeService.rate(transaction.getFrom(), transaction.getTo()));
 
         transactionRepository.save(transaction);
