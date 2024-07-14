@@ -36,7 +36,7 @@ public class TransactionController {
 	@GetMapping("/{userId}")
 	public PagedModel<EntityModel> index(@PathVariable Integer userId, Pageable pageable) {
 		return pagedResourcesAssembler.toModel(transactionRepository.findAllByUserId(userId, pageable),
-				(entity) -> EntityModel.of(entity));
+				entity -> EntityModel.of(entity));
 	}
 
 	@PostMapping
